@@ -65,16 +65,9 @@ public class PacMan {
             col = newCol;
             this.direction = direction;
 
-            if (grid[row][col] == 'c') {
+
+            if (grid[row][col] == 'c' || grid[row][col] == 'f') {
                 game.handlePowerFoodCollection();
-                setInvincible(true);
-                grid[row][col] = ' '; // Clear the cell after collecting power food
-                new Timer().schedule(new TimerTask() {
-                    @Override
-                    public void run() {
-                        setInvincible(false);
-                    }
-                }, 5000); // 5 seconds
             }
         }
     }
@@ -84,10 +77,9 @@ public class PacMan {
     }
 
     public void checkCollision(Pane root, List<Ghost> ghosts, Game game) {
-        int pacmanRow = getRow();
-        int pacmanCol = getCol();
+
         for (Ghost ghost : ghosts) {
-            if (ghost.getRow() == pacmanRow && ghost.getCol() == pacmanCol) {
+            if (ghost.getRow() == this.getRow() && ghost.getCol() == this.getCol()) {
                 if (!isInvincible()) {
                     game.loseLife(root);
                 } else {

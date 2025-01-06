@@ -101,7 +101,6 @@ public class Game {
     }
 
     public void handlePowerFoodCollection() {
-        System.out.println("handlePowerFoodCollection called");
         Fruit.handleFruitCollection(pacman, grid, ghosts.toArray(new Ghost[0]), this);
     }
 
