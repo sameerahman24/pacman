@@ -34,10 +34,10 @@ public class Game {
             {'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W'}
     };
 
-    private char[][] grid = new char[INITIAL_GRID.length][INITIAL_GRID[0].length];
+    private final char[][] grid = new char[INITIAL_GRID.length][INITIAL_GRID[0].length];
 
-    private PacMan pacman;
-    private List<Ghost> ghosts;
+    private final PacMan pacman;
+    private final List<Ghost> ghosts;
     private final List<Ghost> initialGhosts;
     private int points = 0;
     private int highScore = 0;

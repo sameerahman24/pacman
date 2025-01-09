@@ -129,12 +129,11 @@ public class Renderer {
         livesText.setStyle("-fx-font-size: 20;");
 
         // Initially set livesText at bottom-right corner
-        livesText.setX(root.getWidth() - 10); // Set initially at bottom-right, 10px from the right
-        livesText.setY(root.getHeight() - 10); // 10px from the bottom
+        livesText.setX(root.getWidth() - 10);
+        livesText.setY(root.getHeight() - 10);
 
-        // Add a listener to adjust livesText position after it's layout is complete
         livesText.layoutBoundsProperty().addListener((observable, oldBounds, newBounds) -> {
-            livesText.setX(root.getWidth() - newBounds.getWidth() - 10); // 10px from the right edge
+            livesText.setX(root.getWidth() - newBounds.getWidth() - 10);
         });
 
         root.getChildren().add(livesText);

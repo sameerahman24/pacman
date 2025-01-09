@@ -27,7 +27,7 @@ public class App extends Application {
         ghosts.add(new Ghost(7, 10, 'g'));
         ghosts.add(new Ghost(7, 11, 'o'));
 
-        // Create Game instance
+        // Game instance
         Game game = new Game(pacman, ghosts);
         game.startGame(root);
 
