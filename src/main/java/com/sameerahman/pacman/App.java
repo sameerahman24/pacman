@@ -31,6 +31,7 @@ public class App extends Application {
         Game game = new Game(pacman, ghosts);
         game.startGame(root);
 
+
         // Handle key presses
         scene.setOnKeyPressed(event -> {
             if (!game.isGameOver()) {

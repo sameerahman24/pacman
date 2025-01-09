@@ -6,13 +6,14 @@ import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
 import javafx.scene.paint.Color;
 
+import java.net.URL;
 import java.util.List;
 
 public class Renderer {
     private static final int CELL_SIZE = 32;
 
     public static void renderGrid(Pane root, char[][] grid, PacMan pacman, List<Ghost> ghosts, int points) {
-        root.getChildren().clear(); //
+        root.getChildren().clear();
 
         // Render grid
         for (int row = 0; row < grid.length; row++) {
@@ -25,24 +26,31 @@ public class Renderer {
                 imageView.setY(row * CELL_SIZE);
 
                 try {
+                    String imagePath = null;
                     switch (cell) {
                         case 'W':
-                            imageView.setImage(new Image(Renderer.class.getResource("/com/sameerahman/pacman/wall.png").toExternalForm()));
+                            imagePath = "/com/sameerahman/pacman/textures/wall.png";
                             break;
                         case 'c':
-                            imageView.setImage(new Image(Renderer.class.getResource("/com/sameerahman/pacman/cherry.png").toExternalForm()));
+                            imagePath = "/com/sameerahman/pacman/textures/cherry.png";
                             break;
                         case 'f':
+                            imagePath = "/com/sameerahman/pacman/textures/powerFood.png";
                             imageView.setFitWidth(CELL_SIZE / 4);
                             imageView.setFitHeight(CELL_SIZE / 4);
-                            imageView.setImage(new Image(Renderer.class.getResource("/com/sameerahman/pacman/powerFood.png").toExternalForm()));
-                            break;
-                        case ' ':
-                            // No texture for empty space
                             break;
                     }
-                } catch (NullPointerException e) {
-                    System.err.println("Image resource not found for cell: " + cell);
+                    if (imagePath != null) {
+                        URL resource = Renderer.class.getResource(imagePath);
+                        if (resource != null) {
+                            imageView.setImage(new Image(resource.toExternalForm()));
+                        } else {
+                            System.err.println("Image resource not found for cell: " + cell + " at path: " + imagePath);
+                        }
+                    }
+                } catch (Exception e) {
+                    System.err.println("Error loading image for cell: " + cell);
+                    e.printStackTrace();
                 }
 
                 root.getChildren().add(imageView);
@@ -55,19 +63,33 @@ public class Renderer {
         pacmanView.setFitHeight(CELL_SIZE);
         pacmanView.setX(pacman.getCol() * CELL_SIZE);
         pacmanView.setY(pacman.getRow() * CELL_SIZE);
-        switch (pacman.getDirection()) {
-            case 'L':
-                pacmanView.setImage(new Image(Renderer.class.getResource("/com/sameerahman/pacman/pacmanLeft.png").toExternalForm()));
-                break;
-            case 'R':
-                pacmanView.setImage(new Image(Renderer.class.getResource("/com/sameerahman/pacman/pacmanRight.png").toExternalForm()));
-                break;
-            case 'U':
-                pacmanView.setImage(new Image(Renderer.class.getResource("/com/sameerahman/pacman/pacmanUp.png").toExternalForm()));
-                break;
-            case 'D':
-                pacmanView.setImage(new Image(Renderer.class.getResource("/com/sameerahman/pacman/pacmanDown.png").toExternalForm()));
-                break;
+        try {
+            String pacmanImagePath = null;
+            switch (pacman.getDirection()) {
+                case 'L':
+                    pacmanImagePath = "/com/sameerahman/pacman/textures/pacmanLeft.png";
+                    break;
+                case 'R':
+                    pacmanImagePath = "/com/sameerahman/pacman/textures/pacmanRight.png";
+                    break;
+                case 'U':
+                    pacmanImagePath = "/com/sameerahman/pacman/textures/pacmanUp.png";
+                    break;
+                case 'D':
+                    pacmanImagePath = "/com/sameerahman/pacman/textures/pacmanDown.png";
+                    break;
+            }
+            if (pacmanImagePath != null) {
+                URL resource = Renderer.class.getResource(pacmanImagePath);
+                if (resource != null) {
+                    pacmanView.setImage(new Image(resource.toExternalForm()));
+                } else {
+                    System.err.println("PacMan image resource not found at path: " + pacmanImagePath);
+                }
+            }
+        } catch (Exception e) {
+            System.err.println("Error loading PacMan image");
+            e.printStackTrace();
         }
         root.getChildren().add(pacmanView);
 
@@ -78,10 +100,17 @@ public class Renderer {
             ghostView.setFitHeight(CELL_SIZE);
             ghostView.setX(ghost.getCol() * CELL_SIZE);
             ghostView.setY(ghost.getRow() * CELL_SIZE);
-            if (ghost.isScared()) {
-                ghostView.setImage(new Image(Renderer.class.getResource("/com/sameerahman/pacman/scaredGhost.png").toExternalForm()));
-            } else {
-                ghostView.setImage(new Image(Renderer.class.getResource("/com/sameerahman/pacman/" + getGhostImage(ghost.getType())).toExternalForm()));
+            try {
+                String ghostImagePath = ghost.isScared() ? "/com/sameerahman/pacman/textures/scaredGhost.png" : "/com/sameerahman/pacman/textures/" + getGhostImage(ghost.getType());
+                URL resource = Renderer.class.getResource(ghostImagePath);
+                if (resource != null) {
+                    ghostView.setImage(new Image(resource.toExternalForm()));
+                } else {
+                    System.err.println("Ghost image resource not found for type: " + ghost.getType() + " at path: " + ghostImagePath);
+                }
+            } catch (Exception e) {
+                System.err.println("Error loading ghost image for type: " + ghost.getType());
+                e.printStackTrace();
             }
             root.getChildren().add(ghostView);
         }

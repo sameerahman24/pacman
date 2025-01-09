@@ -43,12 +43,13 @@ public class Ghost {
     public void setScared(boolean scared) {
         this.scared = scared;
         if (scared) {
+            Sound.playIntermissionSound();
             scareTimer.schedule(new TimerTask() {
                 @Override
                 public void run() {
                     setScared(false);
                 }
-            }, 5000); // 5 seconds
+            }, 5000);
         }
     }
 

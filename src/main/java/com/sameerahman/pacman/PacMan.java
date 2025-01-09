@@ -3,8 +3,7 @@ package com.sameerahman.pacman;
 import javafx.scene.layout.Pane;
 
 import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
+
 
 public class PacMan {
     private int row;
@@ -66,7 +65,12 @@ public class PacMan {
             this.direction = direction;
 
 
-            if (grid[row][col] == 'c' || grid[row][col] == 'f') {
+            if (grid[row][col] == 'c') {
+                Sound.playEatingFruitSound();
+                game.handlePowerFoodCollection();
+            }
+            if (grid[row][col] == 'f') {
+                Sound.playMunchSound();
                 game.handlePowerFoodCollection();
             }
         }
@@ -81,8 +85,10 @@ public class PacMan {
         for (Ghost ghost : ghosts) {
             if (ghost.getRow() == this.getRow() && ghost.getCol() == this.getCol()) {
                 if (!isInvincible()) {
+                    Sound.playLoseLifeSound();
                     game.loseLife(root);
                 } else {
+                    Sound.playEatGhostSound();
                     ghosts.remove(ghost);
                     break;
                 }
