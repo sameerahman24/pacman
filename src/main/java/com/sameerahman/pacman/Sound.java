@@ -34,10 +34,6 @@ public class Sound {
         playSound("/com/sameerahman/pacman/sounds/pacman_death.wav");
     }
 
-    public static void playGameOverSound() {
-        playSound("/com/sameerahman/pacman/sounds/game_over.wav");
-    }
-
     public static void playEatGhostSound() {
         playSound("/com/sameerahman/pacman/sounds/pacman_eatghost.wav");
     }
